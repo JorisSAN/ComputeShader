@@ -38,28 +38,28 @@ void Scene_024_ComputeShaderPersonalized::load() {
     Assets::loadComputeShader(SHADER_COMP(SHADER_NAME), SHADER_ID(SHADER_NAME));
     Assets::loadShader(SHADER_VERT(SHADER_NAME), SHADER_FRAG(SHADER_NAME), "", "", "", SHADER_ID(SHADER_NAME));
 
-    // This is position and normal data for a paper airplane
+    // This is position and normal data for a confetti
     static const Vector3 geometry[] =
     {
         // Positions
-        Vector3(-5.0f, 1.0f, 0.0f),
-        Vector3(-1.0f, 1.5f, 0.0f),
-        Vector3(-1.0f, 1.5f, 7.0f),
-        Vector3(0.0f, 0.0f, 0.0f),
-        Vector3(0.0f, 0.0f, 10.0f),
-        Vector3(1.0f, 1.5f, 0.0f),
-        Vector3(1.0f, 1.5f, 7.0f),
-        Vector3(5.0f, 1.0f, 0.0f),
+        Vector3( 1.0f,  1.0f,  1.0f),
+        Vector3(-1.0f,  1.0f,  1.0f),
+        Vector3( 1.0f, -1.0f,  1.0f),
+        Vector3(-1.0f, -1.0f,  1.0f),
+        Vector3( 1.0f,  1.0f, -1.0f),
+        Vector3(-1.0f,  1.0f, -1.0f),
+        Vector3( 1.0f, -1.0f, -1.0f),
+        Vector3(-1.0f, -1.0f, -1.0f),
 
         // Normals
-        Vector3(0.0f, 0.0f, 0.0f),
-        Vector3(0.0f, 0.0f, 0.0f),
-        Vector3(0.107f, -0.859f, 0.00f),
-        Vector3(0.832f, 0.554f, 0.00f),
-        Vector3(-0.59f, -0.395f, 0.00f),
-        Vector3(-0.832f, 0.554f, 0.00f),
-        Vector3(0.295f, -0.196f, 0.00f),
-        Vector3(0.124f, 0.992f, 0.00f),
+        Vector3(-2.0f, 0.0f,  0.0f),
+        Vector3( 2.0f, 2.0f,  0.0f),
+        Vector3(-2.0f, 0.0f,  0.0f),
+        Vector3( 2.0f, 2.0f, -2.0f),
+        Vector3(-2.0f, 0.0f, -2.0f),
+        Vector3( 2.0f, 2.0f, -2.0f),
+        Vector3(-2.0f, 0.0f, -2.0f),
+        Vector3( 2.0f, 2.0f,  0.0f),
     };
 
     computeShader = Assets::getComputeShader(SHADER_ID(SHADER_NAME));
