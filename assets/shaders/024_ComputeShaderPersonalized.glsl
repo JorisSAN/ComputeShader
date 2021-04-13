@@ -2,7 +2,7 @@
 
 layout (local_size_x = 256) in;
 
-uniform float closest_allowed_dist = 25.0;
+uniform float closest_allowed_dist = 50.0;
 uniform float rule1_weight = 0.18;
 uniform float rule2_weight = 0.05;
 uniform float rule3_weight = 0.17;

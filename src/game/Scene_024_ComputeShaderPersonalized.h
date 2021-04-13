@@ -1,6 +1,3 @@
-#ifndef Scene_022_ComputeShaderPrefixSum_H
-#define Scene_022_ComputeShaderPrefixSum_H
-
 #include "../engine/Scene.h"
 #include "../engine/Assets.h"
 #include "../engine/MeshObject.h"
@@ -56,6 +53,3 @@ static inline float randomFloat()
 
     return (res - 1.0f);
 }
-
-
-#endif //Scene_022_ComputeShaderPrefixSum_H
