@@ -3,8 +3,8 @@
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 
-layout (location = 2) in vec3 bird_position;
-layout (location = 3) in vec3 bird_velocity;
+layout (location = 2) in vec3 confetti_position;
+layout (location = 3) in vec3 confetti_velocity;
 
 out VS_OUT
 {
@@ -26,11 +26,11 @@ mat4 make_lookat(vec3 forward, vec3 up)
 
 void main(void)
 {
-    mat4 lookat = make_lookat(normalize(bird_velocity), vec3(0.0, 1.0, 0.0));
+    mat4 lookat = make_lookat(normalize(confetti_velocity), vec3(0.0, 1.0, 0.0));
     vec4 obj_coord = lookat * vec4(position.xyz, 1.0);
-    gl_Position = mvp * (obj_coord + vec4(bird_position, 0.0));
+    gl_Position = mvp * (obj_coord + vec4(confetti_position, 0.0));
 
     vec3 N = mat3(lookat) * normal;
 
-    vs_out.color = vec3(1,0.4,0.4);
+    vs_out.color = vec3(0.4,0.75,1.0);
 }

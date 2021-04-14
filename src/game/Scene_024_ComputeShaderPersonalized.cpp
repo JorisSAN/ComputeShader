@@ -103,8 +103,8 @@ void Scene_024_ComputeShaderPersonalized::load() {
 
     for (i = 0; i < FLOCK_SIZE; i++)
     {
-        ptr[i].position = (Vector3(randomFloat(), randomFloat(), randomFloat()) - Vector3(0.5f, 0.5f, 0.5f)) * 300.0f;
-        ptr[i].velocity = (Vector3(randomFloat(), randomFloat(), randomFloat()) - Vector3(0.5f, 0.5f, 0.5f));
+        ptr[i].position = Vector3(0.0f, 0.0f, 0.0f);
+        ptr[i].velocity = Vector3(randomFloat(), randomFloat(), randomFloat()) - Vector3(0.5f, 0.5f, 0.5f);
     }
 
     glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -117,11 +117,12 @@ void Scene_024_ComputeShaderPersonalized::update(float dt) {
     totalTime += dt;
 
     computeShader.use();
-    Vector3 goal = Vector3(sinf(totalTime * 0.34f), cosf(totalTime * 0.29f), sinf(totalTime * 0.12f) * cosf(totalTime * 0.5f));
+    Vector3 start = Vector3(0.0f, 0.0f, 0.0f);
+    Vector3 force = Vector3(0.0f, 1.0f, 0.0f);
 
-    goal = goal * Vector3(35.0f, 25.0f, 60.0f);
-
-    computeShader.setVector3f("goal", goal);
+    computeShader.setVector3f("start", start);
+    computeShader.setVector3f("force", force);
+    computeShader.setFloat("totalTime", totalTime);
 
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, flockBuffer[frameIndex]);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, flockBuffer[frameIndex ^ 1]);
@@ -133,10 +134,10 @@ void Scene_024_ComputeShaderPersonalized::draw()
 {
     renderShader.use();
 
-    Matrix4 mv_matrix = Matrix4::createLookAt(Vector3(0.0f, 0.0f, -200.0f),
+    Matrix4 mv_matrix = Matrix4::createLookAt(Vector3(0.0f, 0.0f, -100.0f),
                                             Vector3(0.0f, 0.0f, 0.0f),
                                             Vector3(0.0f, 1.0f, 0.0f));
-    Matrix4 proj_matrix = Matrix4::createPerspectiveFOV(60.0f, game->windowWidth, game->windowHeight, 0.1f, 3000.0f);
+    Matrix4 proj_matrix = Matrix4::createPerspectiveFOV(90.0f, game->windowWidth, game->windowHeight, 0.1f, 3000.0f);
     Matrix4 mvp = proj_matrix * mv_matrix;
 
     renderShader.setMatrix4("mvp", mvp);
