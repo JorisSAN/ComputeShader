@@ -98,27 +98,42 @@ void Scene_024_ComputeShaderPersonalized::load() {
         glEnableVertexAttribArray(3);
     }
 
-    glBindBuffer(GL_ARRAY_BUFFER, flockBuffer[0]);
-    flock_member * ptr = reinterpret_cast<flock_member *>(glMapBufferRange(GL_ARRAY_BUFFER, 0, FLOCK_SIZE * sizeof(flock_member), GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT));
-
-    for (i = 0; i < FLOCK_SIZE; i++)
-    {
-        ptr[i].position = Vector3(0.0f, 0.0f, 0.0f);
-        ptr[i].velocity = Vector3(randomFloat(), randomFloat(), randomFloat()) - Vector3(0.5f, 0.5f, 0.5f);
-    }
-
-    glUnmapBuffer(GL_ARRAY_BUFFER);
+    spawnParticles(2000);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 }
 
+void Scene_024_ComputeShaderPersonalized::spawnParticles(int nbParticles) {
+    if(nbParticles + particlesGlobal < FLOCK_SIZE) {
+        particlesGlobal += nbParticles;
+    }
+    else {
+        particlesGlobal = nbParticles;;
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, flockBuffer[0]);
+    flock_member * ptr = reinterpret_cast<flock_member *>(glMapBufferRange(GL_ARRAY_BUFFER, (particlesGlobal - nbParticles) * sizeof(flock_member), nbParticles * sizeof(flock_member), GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT));
+
+    for (int i = 0; i < nbParticles; i++)
+    {
+        ptr[i].position = Vector3(0.0f, 0.0f, 0.0f);
+        ptr[i].velocity = Vector3(randomFloat(), randomFloat(), randomFloat()) - Vector3(0.5f, 0.5f, 0.5f);
+        ptr[i].timeSpawn = Vector3(totalTime, 0.0f, 0.0f);
+    }
+
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+}
+
 void Scene_024_ComputeShaderPersonalized::update(float dt) {
     totalTime += dt;
 
+    spawnParticles(particlePerFrame);
+
     computeShader.use();
+
     Vector3 start = Vector3(0.0f, 0.0f, 0.0f);
-    Vector3 force = Vector3(0.0f, 1.0f, 0.0f);
+    Vector3 force = Vector3(0.0f, 0.85f, 0.0f);
 
     computeShader.setVector3f("start", start);
     computeShader.setVector3f("force", force);

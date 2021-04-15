@@ -12,6 +12,7 @@ struct flock_member
 {
     vec3 position;
     vec3 velocity;
+    vec3 timeSpawn;
 };
 
 layout (std430, binding = 0) readonly buffer members_in
@@ -36,7 +37,8 @@ void main(void)
     vec3 accelleration = vec3(0.0);
 
     new_me.position = me.position + me.velocity * timestep;
-    accelleration += force + gravity * totalTime;
+    new_me.timeSpawn = me.timeSpawn;
+    accelleration += force + gravity * (totalTime - me.timeSpawn.x);
     accelleration += vec3(sin(global_id) * 0.05, 0.0, cos(global_id) * 0.05);
     new_me.velocity = me.velocity + accelleration * timestep;
     if (length(new_me.velocity) > 10.0)

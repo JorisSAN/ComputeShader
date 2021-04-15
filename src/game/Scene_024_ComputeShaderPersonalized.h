@@ -12,6 +12,8 @@ struct flock_member
     unsigned int : 32;
     Vector3 velocity;
     unsigned int : 32;
+    Vector3 timeSpawn;
+    unsigned int : 32;
 };
 
 class Scene_024_ComputeShaderPersonalized : public Scene {
@@ -30,6 +32,8 @@ public:
 private:
     Game *game;
     float totalTime;
+    int particlesGlobal = 0;
+    int particlePerFrame = 100;
 
     ComputeShader computeShader;
     Shader renderShader;
@@ -38,6 +42,8 @@ private:
     GLuint flockRenderVao[2];
     GLuint geometryBuffer;
     GLuint frameIndex;
+
+    void spawnParticles(int nbParticles);
 };
 
 static inline float randomFloat()
